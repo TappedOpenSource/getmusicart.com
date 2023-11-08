@@ -1,4 +1,4 @@
-const QSTASH = `https://qstash.upstash.io/v1/publish/`;
+const QSTASH = `https://qstash.upstash.io/v2/publish/`;
 const DALL_E = "https://api.openai.com/v1/images/generations";
 const CALLBACK_URL = process.env.NEXT_PUBLIC_CALLBACK_URL;
 const QSTASH_TOKEN = process.env.QSTASH_TOKEN;
