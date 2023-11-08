@@ -15,7 +15,7 @@ export default function Prompting() {
   const [canShowImage, setCanShowImage] = useState(false);
 
   const fetchMessageId = async (messageId: string) => {
-    const res = await fetch(`/poll?id=${messageId}`);
+    const res = await fetch(`/api/poll?id=${messageId}`);
     if (res.status === 500) {
       toast.error("Something went wrong, please try again");
       console.log({ text: await res.text() });
@@ -55,7 +55,7 @@ export default function Prompting() {
     e.preventDefault();
     setLoading(true);
     toast("Generating your image...", { position: "top-center" });
-    const response = await fetch(`/image?prompt=${prompt}`);
+    const response = await fetch(`/api/image?prompt=${prompt}`);
     console.log({ status: response.status });
     const json = await response.json();
     console.log({ json });
