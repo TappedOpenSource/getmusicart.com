@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>cover art creator</title>
+        <title>your cover art | tapped.ai</title>
       </head>
       <body className={rubik.className}>{children}</body>
     </html>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
 const MAX_REPLIES = 100;
+const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
   const [prompt, setPrompt] = useState("");
@@ -45,7 +46,7 @@ export default function Prompting() {
       if (success) {
         break;
       }
-      await sleep(1000);
+      await sleep(POLL_INVERVAL);
     }
 
     setLoading(false);
