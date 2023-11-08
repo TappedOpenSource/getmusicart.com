@@ -28,7 +28,11 @@ export default function Prompting() {
     }
 
     const json = await res.json();
-    console.log({ imageJson: json });
+    console.log({ json });
+    if (json.status === "pending") {
+        return false;
+    }
+
     setImage(json.data[0].b64_json);
     setCanShowImage(true);
     return true;

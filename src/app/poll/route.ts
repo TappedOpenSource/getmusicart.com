@@ -13,11 +13,13 @@ export async function GET(req: Request) {
 
     const data = await redis.get(id);
     if (!data) {
-        return Response.json(
-            { error: 'no data found' },
-            { status: 404 },
-        );
+        return Response.json({ 
+            status: 'pending',
+        });
     }
 
-    return Response.json(data);
+    return Response.json({
+        status: 'complete',
+        data,
+    });
 }
