@@ -12,7 +12,7 @@ const POLL_INVERVAL = 2 * 1000; // 2 seconds
 export default function Prompting() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
   const [canShowImage, setCanShowImage] = useState(false);
 
   const fetchMessageId = async (messageId: string) => {
@@ -31,10 +31,14 @@ export default function Prompting() {
     const json = await res.json();
     console.log({ json });
     if (json.status === "pending") {
-        return false;
+      return false;
     }
 
-    const { payload } = json;
+    const { payload } = json as {
+      payload: {
+        data: { b64_json: string }[]
+      }
+    };
     console.log({ itemsCount: payload.data.length });
 
     setImage(payload.data[0].b64_json);
