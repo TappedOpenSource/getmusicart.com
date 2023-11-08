@@ -29,11 +29,11 @@ export default function Prompting() {
     }
 
     const json = await res.json();
-    console.log({ json });
     if (json.status === "pending") {
       return false;
     }
 
+    console.log({ json });
     const { payload } = json as {
       payload: {
         data: { b64_json: string }[]
@@ -53,6 +53,7 @@ export default function Prompting() {
       if (success) {
         break;
       }
+      console.log(`pending - ${i}`);
       await sleep(POLL_INVERVAL);
     }
 
