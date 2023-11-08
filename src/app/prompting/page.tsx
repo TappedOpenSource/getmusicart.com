@@ -34,7 +34,10 @@ export default function Prompting() {
         return false;
     }
 
-    setImage(json.payload.data[0].b64_json);
+    const { payload } = json;
+    console.log({ itemsCount: payload.data.length });
+
+    setImage(payload.data[0].b64_json);
     setCanShowImage(true);
     return true;
   }
