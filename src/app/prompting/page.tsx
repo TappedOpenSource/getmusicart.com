@@ -34,7 +34,7 @@ export default function Prompting() {
         return false;
     }
 
-    setImage(json.data.data[0].b64_json);
+    setImage(json.payload.data[0].b64_json);
     setCanShowImage(true);
     return true;
   }
