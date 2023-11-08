@@ -13,10 +13,11 @@ export default function Prompting() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [leapImageUris, setLeapImageUris] = useState<string[]>([]); 
   const [canShowImage, setCanShowImage] = useState(false);
 
   const fetchMessageId = async (messageId: string) => {
-    const res = await fetch(`/api/poll?id=${messageId}`);
+    const res = await fetch(`/api/poll_redis?id=${messageId}`);
     if (res.status === 500) {
       toast.error("Something went wrong, please try again");
       console.log({ text: await res.text() });
@@ -33,7 +34,7 @@ export default function Prompting() {
       return false;
     }
 
-    console.log({ json });
+    console.log({ dalleJson: json });
     const { payload } = json as {
       payload: {
         data: { b64_json: string }[]
@@ -47,7 +48,6 @@ export default function Prompting() {
   }
 
   const pollMessageId = async (messageId: string) => {
-    setLoading(true);
     for (let i = 0; i < MAX_REPLIES; i++) {
       const success = await fetchMessageId(messageId);
       if (success) {
@@ -56,21 +56,60 @@ export default function Prompting() {
       console.log(`pending - ${i}`);
       await sleep(POLL_INVERVAL);
     }
-
-    setLoading(false);
   };
+
+  const pollInference = async ({ inferenceId, modelId }: {
+    inferenceId: string;
+    modelId: string;
+  }) => {
+    for (let i = 0; i < MAX_REPLIES; i++) {
+
+      const res = await fetch(`/api/poll_inference?inferenceId=${inferenceId}&modelId=${modelId}`)
+      if (res.status === 500) {
+        toast.error("Something went wrong, please try again");
+        console.log({ text: await res.text() });
+        return true;
+      }
+
+      const json = await res.json();
+      console.log({ pollRes: json });
+
+      if (json.status === "finished") {
+        const { images } = json;
+        const imageUris = images.map((image: any) => image.uri);
+        setLeapImageUris(imageUris);
+        return;
+      }
+      console.log(`pending - ${i}`);
+      await sleep(POLL_INVERVAL);
+    }
+  }
 
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
-    toast("Generating your image...", { position: "top-center" });
-    const response = await fetch(`/api/image?prompt=${prompt}`);
-    console.log({ status: response.status });
-    const json = await response.json();
-    console.log({ json });
-    const { id } = json;
+    try {
+      setLoading(true);
+      toast("Generating your image...", { position: "top-center" });
+      // const response = await fetch(`/api/enqueue_dalle?prompt=${prompt}`);
+      // console.log({ status: response.status });
+      // const json = await response.json();
+      // console.log({ json });
+      // const { id } = json;
 
-    await pollMessageId(id);
+      const res = await fetch(`/api/generate_image?prompt=${prompt}`);
+      const json2 = await res.json();
+      const { id, modelId } = json2;
+
+      // await pollMessageId(id);
+      await pollInference({
+        inferenceId: id,
+        modelId,
+      })
+    } catch (e: any) {
+      console.log(e);
+      toast.error("Something went wrong, please try again");
+    }
+    setLoading(false);
   }
 
   const showLoadingState = loading || (image && !canShowImage);
@@ -124,14 +163,28 @@ export default function Prompting() {
           </form>
           <div className="relative flex w-full items-center justify-center">
             <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
-              <img
+              {/* <img
                 alt={`representation of: ${prompt}`}
                 className={cn("rounded-md shadow-md h-full object-cover", {
                   "opacity-100": canShowImage,
                 })}
                 // src={image}
                 src={`data:image/png;base64,${image}`}
-              />
+              /> */}
+              {
+                leapImageUris.map((imageUri, index) => (
+                  <Image
+                    key={index}
+                    alt={`representation of: ${prompt}`}
+                    className={cn("rounded-md shadow-md h-full object-cover", {
+                      "opacity-100": canShowImage,
+                    })}
+                    src={imageUri}
+                    width={400}
+                    height={400}
+                  />
+                ))
+              }
             </div>
 
             <div

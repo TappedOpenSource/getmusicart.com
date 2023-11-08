@@ -14,7 +14,7 @@ export async function GET(req: Request) {
             Authorization: `Bearer ${QSTASH_TOKEN}`,
             "Upstash-Forward-Authorization": `Bearer ${OPENAI_API_KEY}`,
             "Content-Type": "application/json",
-            "Upstash-Callback": `${CALLBACK_URL}/api/callback`,
+            "Upstash-Callback": `${CALLBACK_URL}/api/dalle_callback`,
         },
         body: JSON.stringify({
             prompt,
