@@ -3,6 +3,7 @@
 import { sleep } from "@/utils/sleep";
 import cn from "classnames";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -10,10 +11,11 @@ const MAX_REPLIES = 100;
 const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
+  const router = useRouter();
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
-  const [leapImageUris, setLeapImageUris] = useState<string[]>([]); 
+  const [leapImageUris, setLeapImageUris] = useState<string[]>([]);
   const [canShowImage, setCanShowImage] = useState(false);
 
   const fetchMessageId = async (messageId: string) => {
@@ -78,6 +80,9 @@ export default function Prompting() {
         const { images } = json;
         const imageUris = images.map((image: any) => image.uri);
         setLeapImageUris(imageUris);
+        router.push(
+          `/selection?prompt=${prompt}&imageUris=${imageUris.join(",")}`
+        );
         return;
       }
       console.log(`pending - ${i}`);
@@ -116,12 +121,24 @@ export default function Prompting() {
 
   return (
     <>
-      <div className="antialiased mx-auto px-4 py-20 h-screen bg-gray-100">
+      <div className="min-h-screen px-4">
         <Toaster />
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-5xl tracking-tighter pb-10 font-bold text-gray-800">
+        <div className="min-h-screen flex flex-col items-center justify-end md:justify-center">
+          <div className="md:hidden">
+            <Image
+              src="/images/molecule.png"
+              alt="molecule cover art"
+              width={400}
+              height={400}
+              className="rounded-xl shadow-md h-full object-cover"
+            />
+          </div>
+          <div className="md:block h-6" />
+          <h1 className="text-5xl tracking-tighter pb-10 font-bold text-center">
             tapped cover art creator
           </h1>
+          <div className="md:block h-6" />
+
           <form
             className="flex w-full sm:w-auto flex-col sm:flex-row mb-10"
             onSubmit={submitForm}
@@ -161,45 +178,8 @@ export default function Prompting() {
               {!showLoadingState ? "Generate" : ""}
             </button>
           </form>
-          <div className="relative flex w-full items-center justify-center">
-            <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
-              {/* <img
-                alt={`representation of: ${prompt}`}
-                className={cn("rounded-md shadow-md h-full object-cover", {
-                  "opacity-100": canShowImage,
-                })}
-                // src={image}
-                src={`data:image/png;base64,${image}`}
-              /> */}
-              {
-                leapImageUris.map((imageUri, index) => (
-                  <Image
-                    key={index}
-                    alt={`representation of: ${prompt}`}
-                    className={cn("rounded-md shadow-md h-full object-cover", {
-                      "opacity-100": canShowImage,
-                    })}
-                    src={imageUri}
-                    width={400}
-                    height={400}
-                  />
-                ))
-              }
-            </div>
-
-            <div
-              className={cn(
-                "w-full sm:w-[400px] absolute top-0.5 overflow-hidden rounded-2xl bg-white/5 shadow-xl shadow-black/5",
-                {
-                  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-500/10 before:to-transparent":
-                    showLoadingState,
-                  "opacity-0 shadow-none": canShowImage,
-                }
-              )}
-            ></div>
-          </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }

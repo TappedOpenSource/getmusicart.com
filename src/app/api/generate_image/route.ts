@@ -11,7 +11,7 @@ export async function GET(req: Request) {
     }
 
     console.log({ prompt });
-    const json = await generateImage({ prompt });
+    const json = await generateImage({ prompt, numberOfImages: 4 });
     console.log({ json });
 
     return Response.json(json);
