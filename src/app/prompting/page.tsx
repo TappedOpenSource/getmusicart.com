@@ -1,23 +1,54 @@
 'use client';
 
-import Processing from "@/components/Processing";
+import ProcessingAnimation from "@/components/ProcessingAnimation";
+import { useAuth } from "@/context/AuthProvider";
 import { sleep } from "@/utils/sleep";
-import cn from "classnames";
+import { createUrl } from "@/utils/url";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
 const MAX_REPLIES = 100;
 const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
+  const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
-  const [leapImageUris, setLeapImageUris] = useState<string[]>([]);
-  const [canShowImage, setCanShowImage] = useState(false);
+  const [processing, setProcessing] = useState(false);
+
+  const inferenceId = searchParams.get("inference_id") ?? null;
+  const modelId = searchParams.get("model_id") ?? null;
+
+  useEffect(() => {
+    const startPolling = async () => {
+      if (inferenceId === null || modelId === null) {
+        return;
+      }
+
+      setProcessing(true);
+      await pollInference({
+        inferenceId,
+        modelId,
+      });
+      setProcessing(false);
+    };
+    startPolling();
+  }, [inferenceId, modelId]);
+
+  const redirectWithInference = ({ id, modelId }: {
+    id: string;
+    modelId: string;
+  }) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set("inference_id", id);
+    newParams.set("model_id", modelId);
+    router.push(createUrl("/prompting", newParams));
+  };
 
   const fetchMessageId = async (messageId: string) => {
     const res = await fetch(`/api/poll_redis?id=${messageId}`);
@@ -45,8 +76,8 @@ export default function Prompting() {
     };
     console.log({ itemsCount: payload.data.length });
 
-    setImage(payload.data[0].b64_json);
-    setCanShowImage(true);
+    // setImage(payload.data[0].b64_json);
+    // setCanShowImage(true);
     return true;
   }
 
@@ -81,9 +112,8 @@ export default function Prompting() {
       if (json.status === "finished") {
         const { images } = json;
         const imageUris = images.map((image: any) => image.uri);
-        setLeapImageUris(imageUris);
         router.push(
-          `/selection?prompt=${prompt}&image_uris=${imageUris.join(",")}`
+          `/selection?image_uris=${imageUris.join(",")}`
         );
         return;
       }
@@ -97,7 +127,7 @@ export default function Prompting() {
       toast.error("please enter a prompt");
       return;
     }
-   
+
     try {
       setLoading(true);
       toast("generating your image...", { position: "top-center" });
@@ -112,10 +142,7 @@ export default function Prompting() {
       const { id, modelId } = json2;
 
       // await pollMessageId(id);
-      await pollInference({
-        inferenceId: id,
-        modelId,
-      })
+      redirectWithInference({ id, modelId });
     } catch (e: any) {
       console.log(e);
       toast.error("something went wrong, please try again");
@@ -123,11 +150,19 @@ export default function Prompting() {
     setLoading(false);
   }
 
-  const showLoadingState = loading || (image && !canShowImage);
-
-  if (showLoadingState) {
+  if (user === null) {
     return (
-      <Processing />
+      <>
+        <div className='min-h-screen flex justify-center items-center'>
+          <p>fetching user...</p>
+        </div>
+      </>
+    );
+  }
+
+  if (processing) {
+    return (
+      <ProcessingAnimation />
     )
   }
 
@@ -166,7 +201,7 @@ export default function Prompting() {
               className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-green-700"
               type="submit"
             >
-              {showLoadingState && (
+              {loading && (
                 <svg
                   className="animate-spin h-5 w-5 text-white"
                   xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +223,7 @@ export default function Prompting() {
                   ></path>
                 </svg>
               )}
-              {!showLoadingState ? "Generate" : ""}
+              {!loading ? "Generate" : ""}
             </button>
           </form>
         </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Processing() {
+export default function ProcessingAnimation() {
   const words = ['...'];
   const [periods, setPeriods] = useState('...');
   // eslint-disable-next-line sonarjs/cognitive-complexity

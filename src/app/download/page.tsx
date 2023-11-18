@@ -1,14 +1,25 @@
 
-import Link from "next/link";
 import Image from "next/image";
 import { toBase64 } from "@/utils/base64";
 import { shimmer } from "@/utils/shimmer";
 import { getUrl } from "@/utils/url";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function Download({ searchParams }: {
     searchParams?: { [key: string]: string | undefined };
 }) {
+    const { user } = useAuth();
     const imageUri = searchParams?.image_uri;
+
+    if (user === null) {
+        return (
+            <>
+                <div className='min-h-screen flex justify-center items-center'>
+                    <p>fetching user...</p>
+                </div>
+            </>
+        );
+    }
 
     if (imageUri === undefined || imageUri === null) {
         return (
@@ -38,7 +49,7 @@ export default function Download({ searchParams }: {
                 </div>
                 <div className="h-6" />
                 <div className="flex flex-col justfy-center gap-4">
-                    <Link
+                    <a
                         href={`${imageUri}&width=1024&height=1024`}
                         download="ai_art_1024x1024.png"
                         target="_blank"
@@ -46,8 +57,8 @@ export default function Download({ searchParams }: {
                         className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
                     >
                         get as 1024x1024
-                    </Link>
-                    <Link
+                    </a>
+                    <a
                         href={`${imageUri}&width=500&height=500`}
                         download="ai_art_500x500.png"
                         target="_blank"
@@ -55,8 +66,8 @@ export default function Download({ searchParams }: {
                         className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
                     >
                         get as 500x500
-                    </Link>
-                    <Link
+                    </a>
+                    <a
                         href={`${imageUri}&width=128&height=128`}
                         download="ai_art_128x128.png"
                         target="_blank"
@@ -64,7 +75,7 @@ export default function Download({ searchParams }: {
                         className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
                     >
                         get as 128x128
-                    </Link>
+                    </a>
                 </div>
             </div>
         </>

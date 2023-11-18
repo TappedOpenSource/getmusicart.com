@@ -7,10 +7,12 @@ import { useRouter } from "next/navigation";
 import { toBase64 } from "@/utils/base64";
 import { shimmer } from "@/utils/shimmer";
 import { createUrl } from "@/utils/url";
+import { useAuth } from "@/context/AuthProvider";
 
 const editorUri = '/api/og'
 
 export default function Editor() {
+    const { user } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -18,6 +20,16 @@ export default function Editor() {
     const explicitContent = searchParams.get("explicit_content") === "true"
         ? true
         : false;
+
+    if (user === null) {
+        return (
+            <>
+                <div className='min-h-screen flex justify-center items-center'>
+                    <p>fetching user...</p>
+                </div>
+            </>
+        );
+    }
 
     if (imageUri === undefined || imageUri === null) {
         return (

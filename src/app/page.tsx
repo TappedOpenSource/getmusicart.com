@@ -10,7 +10,7 @@ export default function Home() {
         create cover art for your next album
       </h1>
       <Link
-        href="/prompting"
+        href="/login?return_url=/prompting"
         className='font-bold text-2xl rounded-full bg-blue-500 text-white px-10 py-5 mt-6 transition duration-300 ease-in-out hover:bg-blue-600 mr-6'
       >
         get started 
