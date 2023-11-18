@@ -16,7 +16,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'getmusicart.com', 
+                hostname: 'www.getmusicart.com', 
             },
             {
                 protocol: 'https',
