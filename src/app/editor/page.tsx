@@ -59,7 +59,7 @@ export default function Editor() {
 
     return (
         <>
-            <div className="min-h-screen flex flex-col justify-center px-4 ">
+            <div className="min-h-screen md:width-1/2 flex flex-col justify-center px-4 ">
                 <div className="rounded-xl shadow-md flex flex-col justify-center items-center rounded-xl">
                     <Image
                         src={editorUri}
