@@ -1,17 +1,23 @@
 'use client';
 
+import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toBase64 } from "@/utils/base64";
 import { shimmer } from "@/utils/shimmer";
-import Image from "next/image";
-import { useState } from "react";
+import { createUrl } from "@/utils/url";
 
+const editorUri = '/api/og'
 
-export default function Editor({ searchParams }: {
-    searchParams?: { [key: string]: string | undefined };
-}) {
-    const imageUri = searchParams?.imageUri;
+export default function Editor() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const [explicitContent, setExplicitContent] = useState(true);
+    const imageUri = searchParams.get("image_uri");
+    const explicitContent = searchParams.get("explicit_content") === "true"
+        ? true
+        : false;
 
     if (imageUri === undefined || imageUri === null) {
         return (
@@ -25,35 +31,97 @@ export default function Editor({ searchParams }: {
         );
     }
 
-    const editorUri = `/api/og?image_uri=${
-        encodeURIComponent(imageUri)
-    }&explicit_content=${explicitContent}`;
+    function toggleExplicitContent(e: React.ChangeEvent<HTMLInputElement>) {
+        const checked = e.target.checked;
+        const newParams = new URLSearchParams(searchParams.toString());
+
+        if (checked) {
+            newParams.set('explicit_content', checked.toString());
+        } else {
+            newParams.delete('explicit_content');
+        }
+
+        router.push(createUrl('/editor', newParams));
+    }
+
+    const imageLoader = ({ src, width, quality }: {
+        src: string;
+        width: number;
+        quality?: number;
+    }) => {
+        return `${src
+            }?w=${width
+            }&q=${quality || 75
+            }&image_uri=${encodeURIComponent(imageUri)
+            }&explicit_content=${explicitContent
+            }`
+    }
 
     return (
         <>
-            <div className="min-h-screen flex flex-col justify-center">
-                <div className="px-4 rounded-md shadow-md flex flex-col justify-center items-center rounded-xl">
+            <div className="min-h-screen flex flex-col justify-center px-4 ">
+                <div className="rounded-xl shadow-md flex flex-col justify-center items-center rounded-xl">
                     <Image
                         src={editorUri}
+                        loader={imageLoader}
                         alt="generated image"
                         width={512}
                         height={512}
                         className="rounded-md shadow-md object-cover"
                         placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(512, 512))}`}
+                        priority
                     />
                 </div>
                 <form>
-                    <div
-                        className="flex items-center justify-center" 
-                    >
-                        <input
-                            type="checkbox"
-                            checked={explicitContent}
-                            onChange={(e) => setExplicitContent(e.target.checked)}
-                        />
-                        <label>explicit content warning</label>
+                    <div className="inline-flex items-center">
+                        <label
+                            className="relative flex items-center p-3 rounded-full cursor-pointer"
+                            htmlFor="ripple-on"
+                            data-ripple-dark="true"
+                        >
+                            <input
+                                id="ripple-on"
+                                type="checkbox"
+                                className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
+                                checked={explicitContent}
+                                onChange={toggleExplicitContent}
+                            />
+                            <div className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-3.5 w-3.5"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    stroke="currentColor"
+                                    stroke-width="1"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </label>
+                        <label
+                            className="mt-px font-light text-gray-300 cursor-pointer select-none"
+                            htmlFor="ripple-on"
+                        >
+                            explicit content warning
+                        </label>
                     </div>
                 </form>
+                <div className="h-6" />
+                <Link
+                    href={`/download?image_uri=${encodeURIComponent(`${editorUri
+                        }?image_uri=${encodeURIComponent(imageUri)
+                        }&explicit_content=${explicitContent
+                        }`)
+                        }`}
+                    className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
+                >
+                    done
+                </Link>
             </div >
         </>
     );

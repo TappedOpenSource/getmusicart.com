@@ -8,7 +8,7 @@ export default function Selection({
     searchParams?: { [key: string]: string | undefined };
 }) {
     const prompt = searchParams?.prompt;
-    const imageUris = searchParams?.imageUris;
+    const imageUris = searchParams?.image_uris;
 
     console.debug({ prompt, imageUris });
 

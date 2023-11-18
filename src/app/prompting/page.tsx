@@ -82,7 +82,7 @@ export default function Prompting() {
         const imageUris = images.map((image: any) => image.uri);
         setLeapImageUris(imageUris);
         router.push(
-          `/selection?prompt=${prompt}&imageUris=${imageUris.join(",")}`
+          `/selection?prompt=${prompt}&image_uris=${imageUris.join(",")}`
         );
         return;
       }
