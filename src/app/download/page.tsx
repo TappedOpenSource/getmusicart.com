@@ -21,8 +21,6 @@ export default function Download({ searchParams }: {
         );
     }
 
-    console.log({ imageUri });
-
     return (
         <>
             <div className="min-h-screen flex flex-col justify-center px-4">

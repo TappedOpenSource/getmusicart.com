@@ -10,6 +10,18 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'static.tryleap.ai', 
             },
+            {
+                protocol: 'https',
+                hostname: 'getmusicart-com.vercel.app', 
+            },
+            {
+                protocol: 'https',
+                hostname: 'getmusicart.com', 
+            },
+            {
+                protocol: 'https',
+                hostname: 'coverart.tapped.ai', 
+            },
         ],
     }
 }
