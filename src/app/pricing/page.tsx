@@ -15,18 +15,11 @@ export default function SignUp() {
         <>
             <div className="min-h-screen flex flex-col justify-center items-center">
                 <p className="text-center">
-                    you must be a subsriber to the label to create cover art. 
+                    get more credits. 
                 </p> 
                 <p>
-                    apply to join our record label
+                    you can either buy more credits or wait for the next month.
                 </p>
-                <div className="h-4" />
-                <Link
-                    href="https://tapped.ai"
-                    className='bg-blue-700 text-white font-extrabold px-4 py-2 rounded-full'
-                >
-                    sign up
-                </Link>
                 <div className="h-4" />
                 <button
                     onClick={onLogout}

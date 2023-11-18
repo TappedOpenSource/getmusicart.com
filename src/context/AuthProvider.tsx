@@ -40,17 +40,7 @@ export function AuthContextProvider({
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
         const claims = await getCustomClaims();
-        if (claims === undefined || claims === null) {
-          router.push('/signup');
-          return;
-        }
-
-        const claim = claims['stripeRole'] as string | null;
-        if (claim === undefined || claim === null) {
-          router.push('/signup');
-          return;
-        }
-
+        const claim = (claims?.stripeRole ?? null) as string | null;
         const currentUser = await getUser(authUser.uid);
 
         setAuthUser(authUser);

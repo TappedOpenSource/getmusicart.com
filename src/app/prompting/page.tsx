@@ -50,47 +50,47 @@ export default function Prompting() {
     router.push(createUrl("/prompting", newParams));
   };
 
-  const fetchMessageId = async (messageId: string) => {
-    const res = await fetch(`/api/poll_redis?id=${messageId}`);
-    if (res.status === 500) {
-      toast.error("Something went wrong, please try again");
-      console.log({ text: await res.text() });
-      return true;
-    }
+  // const fetchMessageId = async (messageId: string) => {
+  //   const res = await fetch(`/api/poll_redis?id=${messageId}`);
+  //   if (res.status === 500) {
+  //     toast.error("Something went wrong, please try again");
+  //     console.log({ text: await res.text() });
+  //     return true;
+  //   }
 
-    if (res.status !== 200) {
-      console.log({ status: res.status })
-      return false;
-    }
+  //   if (res.status !== 200) {
+  //     console.log({ status: res.status })
+  //     return false;
+  //   }
 
-    const json = await res.json();
-    if (json.status === "pending") {
-      return false;
-    }
+  //   const json = await res.json();
+  //   if (json.status === "pending") {
+  //     return false;
+  //   }
 
-    console.log({ dalleJson: json });
-    const { payload } = json as {
-      payload: {
-        data: { b64_json: string }[]
-      }
-    };
-    console.log({ itemsCount: payload.data.length });
+  //   console.log({ dalleJson: json });
+  //   const { payload } = json as {
+  //     payload: {
+  //       data: { b64_json: string }[]
+  //     }
+  //   };
+  //   console.log({ itemsCount: payload.data.length });
 
-    // setImage(payload.data[0].b64_json);
-    // setCanShowImage(true);
-    return true;
-  }
+  //   // setImage(payload.data[0].b64_json);
+  //   // setCanShowImage(true);
+  //   return true;
+  // }
 
-  const pollMessageId = async (messageId: string) => {
-    for (let i = 0; i < MAX_REPLIES; i++) {
-      const success = await fetchMessageId(messageId);
-      if (success) {
-        break;
-      }
-      console.log(`pending - ${i}`);
-      await sleep(POLL_INVERVAL);
-    }
-  };
+  // const pollMessageId = async (messageId: string) => {
+  //   for (let i = 0; i < MAX_REPLIES; i++) {
+  //     const success = await fetchMessageId(messageId);
+  //     if (success) {
+  //       break;
+  //     }
+  //     console.log(`pending - ${i}`);
+  //     await sleep(POLL_INVERVAL);
+  //   }
+  // };
 
   const pollInference = async ({ inferenceId, modelId }: {
     inferenceId: string;
