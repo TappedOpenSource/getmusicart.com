@@ -16,11 +16,11 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'www.getmusicart.com', 
+                hostname: '**.getmusicart.com', 
             },
             {
                 protocol: 'https',
-                hostname: 'coverart.tapped.ai', 
+                hostname: '**.tapped.ai', 
             },
         ],
     }
