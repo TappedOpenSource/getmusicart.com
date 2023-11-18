@@ -1,5 +1,6 @@
 'use client';
 
+import Processing from "@/components/Processing";
 import { sleep } from "@/utils/sleep";
 import cn from "classnames";
 import Image from "next/image";
@@ -92,9 +93,14 @@ export default function Prompting() {
 
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (prompt === "") {
+      toast.error("please enter a prompt");
+      return;
+    }
+   
     try {
       setLoading(true);
-      toast("Generating your image...", { position: "top-center" });
+      toast("generating your image...", { position: "top-center" });
       // const response = await fetch(`/api/enqueue_dalle?prompt=${prompt}`);
       // console.log({ status: response.status });
       // const json = await response.json();
@@ -112,12 +118,18 @@ export default function Prompting() {
       })
     } catch (e: any) {
       console.log(e);
-      toast.error("Something went wrong, please try again");
+      toast.error("something went wrong, please try again");
     }
     setLoading(false);
   }
 
   const showLoadingState = loading || (image && !canShowImage);
+
+  if (showLoadingState) {
+    return (
+      <Processing />
+    )
+  }
 
   return (
     <>
@@ -131,6 +143,7 @@ export default function Prompting() {
               width={400}
               height={400}
               className="rounded-xl shadow-md h-full object-cover"
+              priority
             />
           </div>
           <div className="md:block h-6" />
@@ -144,13 +157,13 @@ export default function Prompting() {
             onSubmit={submitForm}
           >
             <input
-              className="shadow-sm text-gray-700 rounded-sm px-3 py-2 mb-4 sm:mb-0 sm:min-w-[600px]"
+              className="shadow-sm text-gray-700 rounded-xl px-3 py-2 mb-4 sm:mb-0 sm:min-w-[600px]"
               type="text"
               placeholder="type here..."
               onChange={(e) => setPrompt(e.target.value)}
             />
             <button
-              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-md hover:bg-green-700"
+              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-green-700"
               type="submit"
             >
               {showLoadingState && (

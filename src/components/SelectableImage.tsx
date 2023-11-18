@@ -10,7 +10,7 @@ export default function SelectableImage({ prompt, imageUri }: {
     const router = useRouter();
 
     const selectImage = () => {
-        router.push(`/editor?image_uri=${imageUri}`);
+        router.push(`/editor?image_uri=${imageUri}&explicit_content=true`);
     }
 
     return (
