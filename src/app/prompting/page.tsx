@@ -74,7 +74,8 @@ export default function Prompting() {
       }
 
       const json = await res.json();
-      console.log({ pollRes: json });
+      const status = json.status;
+      console.log({ status, retry: i });
 
       if (json.status === "finished") {
         const { images } = json;
@@ -85,7 +86,6 @@ export default function Prompting() {
         );
         return;
       }
-      console.log(`pending - ${i}`);
       await sleep(POLL_INVERVAL);
     }
   }

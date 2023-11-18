@@ -16,13 +16,26 @@ export async function GET(req: Request) {
     }
 
     return new ImageResponse(
-        <>
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+        }}>
             <img 
                 src={imageUri}
                 alt="generated image"
             />
+            <img 
+                src="https://getmusicart.com/images/explicit_content_warning.png"
+                alt="explicit content warning"
+                width={50}
+                height={50}
+            />
             <p>{explicitContent}</p>
-        </>,
+        </div>,
         {
             width: 512,
             height: 512,

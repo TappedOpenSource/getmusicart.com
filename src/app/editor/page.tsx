@@ -36,8 +36,8 @@ export default function Editor({ searchParams }: {
                     <Image
                         src={editorUri}
                         alt="generated image"
-                        width={1024}
-                        height={1024}
+                        width={512}
+                        height={512}
                         className="rounded-md shadow-md object-cover"
                         placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(512, 512))}`}
                     />
