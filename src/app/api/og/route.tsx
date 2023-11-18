@@ -29,7 +29,7 @@ export async function GET(req: Request) {
                 alt="generated image"
             />
             <img 
-                src="https://getmusicart.com/images/explicit_content_warning.png"
+                src="https://getmusicart-com.vercel.app/images/explicit_content_warning.png"
                 alt="explicit content warning"
                 width={50}
                 height={50}
