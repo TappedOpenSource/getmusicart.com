@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { toBase64 } from "@/utils/base64";
 import { shimmer } from "@/utils/shimmer";
+import { getUrl } from "@/utils/url";
 
 export default function Download({ searchParams }: {
     searchParams?: { [key: string]: string | undefined };
@@ -26,7 +27,7 @@ export default function Download({ searchParams }: {
             <div className="min-h-screen flex flex-col justify-center px-4">
                 <div className="rounded-xl shadow-md flex flex-col justify-center items-center rounded-xl">
                     <Image
-                        src={imageUri}
+                        src={getUrl(imageUri)}
                         alt="generated image"
                         width={512}
                         height={512}
