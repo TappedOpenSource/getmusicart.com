@@ -1,25 +1,12 @@
-
 import Image from "next/image";
 import { toBase64 } from "@/utils/base64";
 import { shimmer } from "@/utils/shimmer";
 import { getUrl } from "@/utils/url";
-import { useAuth } from "@/context/AuthProvider";
 
 export default function Download({ searchParams }: {
     searchParams?: { [key: string]: string | undefined };
 }) {
-    const { user } = useAuth();
     const imageUri = searchParams?.image_uri;
-
-    if (user === null) {
-        return (
-            <>
-                <div className='min-h-screen flex justify-center items-center'>
-                    <p>fetching user...</p>
-                </div>
-            </>
-        );
-    }
 
     if (imageUri === undefined || imageUri === null) {
         return (

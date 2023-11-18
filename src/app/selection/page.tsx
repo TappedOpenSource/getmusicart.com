@@ -1,5 +1,4 @@
 import SelectableImage from "@/components/SelectableImage";
-import { useAuth } from "@/context/AuthProvider";
 
 export default function Selection({
     params,
@@ -8,20 +7,9 @@ export default function Selection({
     params: { slug: string };
     searchParams?: { [key: string]: string | undefined };
 }) {
-    const { user } = useAuth();
     const imageUris = searchParams?.image_uris;
 
     console.debug({ imageUris });
-
-    if (user === null) {
-        return (
-            <>
-                <div className='min-h-screen flex justify-center items-center'>
-                    <p>fetching user...</p>
-                </div>
-            </>
-        );
-    }
 
     if (imageUris === undefined || imageUris === null) {
         return (
