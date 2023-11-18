@@ -31,7 +31,7 @@ export async function GET(req: Request) {
             />
             {explicitContent && (
                 <img
-                    src="https://getmusicart-com.vercel.app/images/explicit_content_warning.png"
+                    src="https://coverart.tapped.ai/images/explicit_content_warning.png"
                     alt="explicit content warning"
                     height={height * 0.1}
                     style={{
