@@ -53,7 +53,7 @@ export default function Download({ searchParams }: {
                         rel="noreferrer"
                         className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
                     >
-                        get as 500x512
+                        get as 500x500
                     </Link>
                     <Link
                         href={`${imageUri}&width=128&height=128`}

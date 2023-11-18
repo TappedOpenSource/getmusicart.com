@@ -148,7 +148,7 @@ export default function Prompting() {
           </div>
           <div className="md:block h-6" />
           <h1 className="text-5xl tracking-tighter pb-10 font-bold text-center">
-            tapped cover art creator
+            describe your cover art
           </h1>
           <div className="md:block h-6" />
 
