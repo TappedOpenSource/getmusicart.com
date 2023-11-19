@@ -36,6 +36,15 @@ export default function Download({ searchParams }: {
                 </div>
                 <div className="h-6" />
                 <div className="flex flex-col justfy-center gap-4">
+                <a
+                        href={`${imageUri}&width=3000&height=3000`}
+                        download="ai_art_3000x3000.png"
+                        target="_blank"
+                        rel="noreferrer"
+                        className='text-center text-2xl font-bold px-12 py-2 rounded-xl bg-white/10 text-white/75 hover:scale-105 transform transition-all duration-200 ease-in-out'
+                    >
+                        get as 3000x3000
+                    </a>
                     <a
                         href={`${imageUri}&width=1024&height=1024`}
                         download="ai_art_1024x1024.png"

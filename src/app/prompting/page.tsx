@@ -1,7 +1,10 @@
 'use client';
 
+import CreditsChip from "@/components/CreditsChip";
 import ProcessingAnimation from "@/components/ProcessingAnimation";
 import { useAuth } from "@/context/AuthProvider";
+import { useCredits } from "@/context/CreditsProvider";
+import { decrementUserCredits } from "@/utils/database";
 import { sleep } from "@/utils/sleep";
 import { createUrl } from "@/utils/url";
 import Image from "next/image";
@@ -14,6 +17,7 @@ const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
   const { user } = useAuth();
+  const { credits } = useCredits();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -123,6 +127,12 @@ export default function Prompting() {
 
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (user === null) {
+      toast.error("please login first");
+      return;
+    }
+
     if (prompt === "") {
       toast.error("please enter a prompt");
       return;
@@ -140,6 +150,15 @@ export default function Prompting() {
       const res = await fetch(`/api/generate_image?prompt=${prompt}`);
       const json2 = await res.json();
       const { id, modelId } = json2;
+
+      console.log({ id, modelId });
+
+      if (id === undefined) {
+        toast.error("something went wrong, please try again");
+        return;
+      }
+
+      await decrementUserCredits(user.id);
 
       // await pollMessageId(id);
       redirectWithInference({ id, modelId });
@@ -198,7 +217,8 @@ export default function Prompting() {
               onChange={(e) => setPrompt(e.target.value)}
             />
             <button
-              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-green-700"
+              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-green-700 disabled:opacity-25"
+              disabled={credits === 0}
               type="submit"
             >
               {loading && (
@@ -223,9 +243,11 @@ export default function Prompting() {
                   ></path>
                 </svg>
               )}
-              {!loading ? "Generate" : ""}
+              {!loading ? "Generate (1 credit)" : ""}
             </button>
           </form>
+          <CreditsChip />
+          <div className="md:block h-6" />
         </div>
       </div >
     </>

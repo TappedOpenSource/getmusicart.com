@@ -3,6 +3,7 @@ import { Rubik } from 'next/font/google'
 import './globals.css'
 import { AuthContextProvider } from '@/context/AuthProvider'
 import { Analytics } from '@vercel/analytics/react'
+import { CreditsContextProvider } from '@/context/CreditsProvider'
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -57,7 +58,9 @@ export default function RootLayout({
       </head>
       <body className={rubik.className}>
         <AuthContextProvider>
-          {children}
+          <CreditsContextProvider>
+            {children}
+          </CreditsContextProvider>
         </AuthContextProvider>
       </body>
       <Analytics />

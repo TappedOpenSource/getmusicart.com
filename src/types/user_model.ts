@@ -6,6 +6,7 @@ import {
 
 export type UserModel = {
     id: string;
+    email: string;
     username: string;
     artistName: string;
     bio: string;
@@ -33,6 +34,7 @@ export const userModelConverter = {
         const data = snapshot.data(options)!;
         return {
             id: data.id,
+            email: data.email,
             username: data.username,
             artistName: data.artistName,
             bio: data.bio,

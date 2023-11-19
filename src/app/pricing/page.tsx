@@ -1,25 +1,38 @@
 'use client';
 
+import StripePricingTable from "@/components/stripe/PricingTable";
+import { useAuth } from "@/context/AuthProvider";
 import { logout } from "@/utils/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+    const { user } = useAuth();
     const router = useRouter();
     const onLogout = async () => {
         await logout();
         router.push("/login");
     }
 
+    if (user === null) {
+        return (
+            <div className="min-h-screen flex flex-col justify-center items-center">
+                <h1 className="text-5xl tracking-tighter pb-10 font-bold">
+                    please login
+                </h1>
+                <Link href="/login">
+                    <a className="text-gray-500 px-4 py-2">
+                        login
+                    </a>
+                </Link>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="min-h-screen flex flex-col justify-center items-center">
-                <p className="text-center">
-                    get more credits. 
-                </p> 
-                <p>
-                    you can either buy more credits or wait for the next month.
-                </p>
+                <StripePricingTable user={user} />
                 <div className="h-4" />
                 <button
                     onClick={onLogout}
