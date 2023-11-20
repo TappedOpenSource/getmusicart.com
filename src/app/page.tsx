@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <div className="min-h-[70vh] flex flex-col justify-center items-center px-6">
+      <div className="min-h-[90vh] md:min-h-[70vh] flex flex-col justify-center items-center px-6">
         <h1
           className="md:w-1/2 text-center text-6xl tracking-tighter font-extrabold gray-800"
         >
