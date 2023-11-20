@@ -243,7 +243,7 @@ export default function Prompting() {
                   ></path>
                 </svg>
               )}
-              {!loading ? "Generate (1 credit)" : ""}
+              {!loading ? "Generate" : ""}
             </button>
           </form>
           <CreditsChip />
