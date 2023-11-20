@@ -3,6 +3,8 @@ import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
 } from "firebase/auth";
 import { auth } from "@/utils/firebase";
 
@@ -35,7 +37,13 @@ export async function signupWithCredentials({ email, password }: Credentials) {
 export async function loginWithGoogle() {
     console.debug('loginWithGoogle');
     const provider = new GoogleAuthProvider();
-    const loginResult = await signInWithPopup(auth, provider);
+    await signInWithRedirect(auth, provider);
+    const loginResult = await getRedirectResult(auth);
+
+    if (loginResult === null) {
+        throw new Error('login failed');
+    }
+
     return { uid: loginResult.user.uid };
 }
 

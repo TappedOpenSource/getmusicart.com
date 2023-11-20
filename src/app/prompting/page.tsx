@@ -217,7 +217,7 @@ export default function Prompting() {
               onChange={(e) => setPrompt(e.target.value)}
             />
             <button
-              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-green-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-green-700 disabled:opacity-25"
+              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-blue-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-blue-700 disabled:opacity-25"
               disabled={credits === 0}
               type="submit"
             >

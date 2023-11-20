@@ -7,7 +7,7 @@ import { CreditsContextProvider } from '@/context/CreditsProvider'
 
 const rubik = Rubik({
   subsets: ['latin'],
-  weight: ["400", "500", "700"],
+  weight: ["300", "400", "500", "700", "800", "900"],
 })
 
 const title = 'cover art generator';
