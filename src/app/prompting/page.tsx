@@ -16,7 +16,7 @@ const MAX_REPLIES = 100;
 const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
-  const { user } = useAuth();
+  const { authUser } =useAuth();
   const { credits } = useCredits();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -128,7 +128,7 @@ export default function Prompting() {
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (user === null) {
+    if (authUser === null) {
       toast.error("please login first");
       return;
     }
@@ -158,7 +158,7 @@ export default function Prompting() {
         return;
       }
 
-      await decrementUserCredits(user.id);
+      await decrementUserCredits(authUser.uid);
 
       // await pollMessageId(id);
       redirectWithInference({ id, modelId });
@@ -169,7 +169,7 @@ export default function Prompting() {
     setLoading(false);
   }
 
-  if (user === null) {
+  if (authUser === null) {
     return (
       <>
         <div className='min-h-screen flex justify-center items-center'>

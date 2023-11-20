@@ -7,14 +7,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-    const { user } = useAuth();
+    const { authUser } =useAuth();
     const router = useRouter();
     const onLogout = async () => {
         await logout();
         router.push("/login");
     }
 
-    if (user === null) {
+    if (authUser === null) {
         return (
             <div className="min-h-screen flex flex-col justify-center items-center">
                 <h1 className="text-5xl tracking-tighter pb-10 font-bold">
@@ -32,7 +32,7 @@ export default function SignUp() {
     return (
         <>
             <div className="min-h-screen flex flex-col justify-center items-center">
-                <StripePricingTable user={user} />
+                <StripePricingTable user={authUser} />
                 <div className="h-4" />
                 <button
                     onClick={onLogout}

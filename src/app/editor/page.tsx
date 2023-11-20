@@ -12,7 +12,7 @@ import { useAuth } from "@/context/AuthProvider";
 const editorUri = '/api/og'
 
 export default function Editor() {
-    const { user } = useAuth();
+    const { authUser } =useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -21,7 +21,7 @@ export default function Editor() {
         ? true
         : false;
 
-    if (user === null) {
+    if (authUser === null) {
         return (
             <>
                 <div className='min-h-screen flex justify-center items-center'>

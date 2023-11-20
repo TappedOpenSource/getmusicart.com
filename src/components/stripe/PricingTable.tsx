@@ -1,6 +1,6 @@
 'use client'
-import { useAuth } from '@/context/AuthProvider';
-import { UserModel } from '@/types/user_model';
+
+import { User } from 'firebase/auth';
 import React, { useEffect } from 'react';
 
 const pricingTableId = process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID;
@@ -20,7 +20,7 @@ declare global {
 }
 
 export default function StripePricingTable({ user }: {
-  user: UserModel;
+  user: User;
 }) {
   useEffect(() => {
     const script = document.createElement('script');
@@ -49,7 +49,7 @@ export default function StripePricingTable({ user }: {
       <stripe-pricing-table 
         pricing-table-id={pricingTableId}
         publishable-key={publishableKey}
-        client-reference-id={user.id}
+        client-reference-id={user.uid}
         customer-email={user.email}
         >
       </stripe-pricing-table>

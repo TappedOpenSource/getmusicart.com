@@ -7,12 +7,8 @@ import React, {
     useEffect,
     useState,
 } from 'react';
-import { auth } from '@/utils/firebase';
-import { type UserModel } from '@/types/user_model';
-import { getUser, userCreditsListener } from '@/utils/database';
-import { getCustomClaims } from '@/utils/auth';
+import { userCreditsListener } from '@/utils/database';
 import { useRouter } from 'next/navigation';
-import Loading from '@/components/Loading';
 import { useAuth } from './AuthProvider';
 
 export const CreditsContext = createContext<{
@@ -28,21 +24,21 @@ interface CreditsContextProviderProps {
 export function CreditsContextProvider({
     children,
 }: CreditsContextProviderProps): JSX.Element {
-    const { user } = useAuth();
+    const { authUser } =useAuth();
     const router = useRouter();
     const [credits, setCredits] = useState(0);
 
     useEffect(() => {
-        if (user === null) {
+        if (authUser === null) {
             return;
         }
 
-        const unsubscribe = userCreditsListener(user.id, async (credits) => {
+        const unsubscribe = userCreditsListener(authUser.uid, async (credits) => {
             setCredits(credits);
         });
 
         return () => unsubscribe();
-    }, [router, user]);
+    }, [router, authUser]);
 
     return (
         <>

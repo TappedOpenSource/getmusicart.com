@@ -9,17 +9,14 @@ import React, {
 } from 'react';
 import { auth } from '@/utils/firebase';
 import { User, onAuthStateChanged } from 'firebase/auth';
-import { type UserModel } from '@/types/user_model';
-import { getUser } from '@/utils/database';
 import { getCustomClaims } from '@/utils/auth';
 import { useRouter } from 'next/navigation';
 import Loading from '@/components/Loading';
 
 export const AuthContext = createContext<{
   authUser: User | null;
-  user: UserModel | null;
   claim: string | null;
-}>({ authUser: null, user: null, claim: null });
+}>({ authUser: null, claim: null });
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -32,7 +29,6 @@ export function AuthContextProvider({
 }: AuthContextProviderProps): JSX.Element {
   const router = useRouter();
   const [authUser, setAuthUser] = useState<User | null>(null);
-  const [user, setUser] = useState<UserModel | null>(null);
   const [claim, setClaim] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -41,10 +37,8 @@ export function AuthContextProvider({
       if (authUser) {
         const claims = await getCustomClaims();
         const claim = (claims?.stripeRole ?? null) as string | null;
-        const currentUser = await getUser(authUser.uid);
 
         setAuthUser(authUser);
-        setUser(currentUser);
         setClaim(claim);
       } else {
         setAuthUser(null);
@@ -57,7 +51,7 @@ export function AuthContextProvider({
 
   return (
     <>
-      <AuthContext.Provider value={{ authUser, user, claim }}>
+      <AuthContext.Provider value={{ authUser, claim }}>
         {loading ? <Loading /> : children}
       </AuthContext.Provider>
     </>
