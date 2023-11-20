@@ -4,13 +4,13 @@ import {
   } from '@/utils/auth';
   
   export default function ContinueWithGoogleButton({ onClick }: {
-    onClick: (loginResult: LoginResult) => void,
+    onClick?: (loginResult: LoginResult) => void,
   }) {
     const handleLogin = async () => {
       // e.preventDefault();
       try {
         const response = await loginWithGoogle();
-        onClick(response);
+        onClick?.(response);
       } catch (err) {
         console.error(err);
       }

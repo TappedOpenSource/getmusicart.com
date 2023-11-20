@@ -17,11 +17,11 @@ export default function Login() {
     const returnUrl = searchParams.get('return_url') || '/';
     console.log({ returnUrl });
 
-    // const { user } = useAuth();
-    // if (user) {
-    //     router.push(returnUrl);
-    //     return;
-    // }
+    const { user } = useAuth();
+    if (user) {
+        router.push(returnUrl);
+        return;
+    }
 
     const handleLogin = async (e: any) => {
         e.preventDefault();
@@ -30,14 +30,6 @@ export default function Login() {
                 email: data.email,
                 password: data.password,
             });
-            router.push(returnUrl);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const handleGoogleLogin = async () => {
-        try {
             router.push(returnUrl);
         } catch (err) {
             console.error(err);
@@ -55,7 +47,7 @@ export default function Login() {
                 />
             </div>
 
-            <ContinueWithGoogleButton onClick={handleGoogleLogin} />
+            <ContinueWithGoogleButton />
         </div>
     );
 };
