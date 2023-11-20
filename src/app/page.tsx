@@ -16,7 +16,9 @@ export default function Home() {
     "512.tcc.png",
     "512.two_blue.png",
     "512.what.png",
-    "512.blackandwhite.png"
+    "512.blackandwhite.png",
+    "512.drake.png",
+    "512.green.png",
   ];
   const shuffledExamples = shuffle(coverArtExamples);
 
