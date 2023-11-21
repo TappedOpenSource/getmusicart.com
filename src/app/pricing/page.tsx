@@ -20,10 +20,11 @@ export default function SignUp() {
                 <h1 className="text-5xl tracking-tighter pb-10 font-bold">
                     please login
                 </h1>
-                <Link href="/login">
-                    <a className="text-gray-500 px-4 py-2">
-                        login
-                    </a>
+                <Link 
+                    href="/login?return_url=/prompting"
+                    className="text-gray-500 px-4 py-2"
+                >
+                    login
                 </Link>
             </div>
         );

@@ -8,7 +8,7 @@ import ContinueWithGoogleButton from '@/components/ContinueWithGoogleButton';
 export default function Login() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const returnUrl = searchParams.get('return_url') || '/';
+    const returnUrl = searchParams.get('return_url') || '/prompting';
     console.log({ returnUrl });
 
     const { authUser } = useAuth();
