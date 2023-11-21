@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useCredits } from "@/context/CreditsProvider";
 
-export default function CreditsChip() {
+export default function CreditsChip({ className }: {
+    className?: string;
+}) {
     const { credits } = useCredits();
 
     if (credits === 0) {
@@ -21,7 +23,7 @@ export default function CreditsChip() {
         <>
             <Link
                 href="/pricing"
-                className="rounded-xl p-3 bg-blue-500/10 text-blue-500"
+                className={`rounded-xl p-3 bg-blue-500/10 text-blue-500 ${className}`}
             >
                 {credits} credits
             </Link>

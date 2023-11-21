@@ -16,7 +16,7 @@ const MAX_REPLIES = 100;
 const POLL_INVERVAL = 2 * 1000; // 2 seconds
 
 export default function Prompting() {
-  const { authUser } =useAuth();
+  const { authUser } = useAuth();
   const { credits } = useCredits();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -205,7 +205,6 @@ export default function Prompting() {
             describe your cover art
           </h1>
           <div className="md:block h-6" />
-
           <form
             className="flex w-full sm:w-auto flex-col sm:flex-row mb-10"
             onSubmit={submitForm}
@@ -216,40 +215,47 @@ export default function Prompting() {
               placeholder="type here..."
               onChange={(e) => setPrompt(e.target.value)}
             />
-            <button
-              className="min-h-[40px] shadow-sm sm:w-[100px] py-2 inline-flex justify-center font-medium items-center px-4 bg-blue-600 text-gray-100 sm:ml-2 rounded-xl hover:bg-blue-700 disabled:opacity-25"
-              disabled={credits === 0}
-              type="submit"
-            >
-              {loading && (
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              )}
-              {!loading ? "Generate" : ""}
-            </button>
+            <div className="md:w-4" />
+            <div className="flex flex-row">
+              <CreditsChip className="md:hidden w-full text-center" />
+              <div className="w-4 md:hidden" />
+              <button
+                className='w-full text-center text-lg rounded-xl bg-blue-600 text-white px-12 py-3 transition duration-300 ease-in-out hover:bg-blue-600'
+                disabled={credits === 0}
+                type="submit"
+              >
+                {loading && (
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                )}
+                {!loading ? "Generate" : ""}
+              </button>
+            </div>
           </form>
-          <CreditsChip />
-          <div className="md:block h-6" />
+            <CreditsChip
+              className="hidden md:block text-center"
+            />
         </div>
-      </div >
+        <div className="md:block h-6" />
+      </div>
     </>
   );
 }
