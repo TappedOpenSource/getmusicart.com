@@ -210,7 +210,7 @@ export default function Prompting() {
             onSubmit={submitForm}
           >
             <input
-              className="shadow-sm text-gray-700 rounded-xl px-3 py-2 mb-4 sm:mb-0 sm:min-w-[600px]"
+              className="shadow-sm text-gray-700 rounded-xl px-4 py-3 mb-4 sm:mb-0 sm:min-w-[600px]"
               type="text"
               placeholder="type here..."
               onChange={(e) => setPrompt(e.target.value)}
