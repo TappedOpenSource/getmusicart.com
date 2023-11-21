@@ -17,6 +17,10 @@ export default function Login() {
         return;
     }
 
+    const onLogin = () => {
+        router.push(returnUrl);
+    }
+
     return (
         <div className="flex flex-col justify-center items-center min-h-screen rounded-lg p-16">
             <div className="flex items-center justify-center pb-5">
@@ -28,7 +32,7 @@ export default function Login() {
                 />
             </div>
 
-            <ContinueWithGoogleButton />
+            <ContinueWithGoogleButton onClick={onLogin} />
         </div>
     );
 };
