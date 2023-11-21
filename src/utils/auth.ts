@@ -37,12 +37,7 @@ export async function signupWithCredentials({ email, password }: Credentials) {
 export async function loginWithGoogle() {
     console.debug('loginWithGoogle');
     const provider = new GoogleAuthProvider();
-    await signInWithRedirect(auth, provider);
-    const loginResult = await getRedirectResult(auth);
-
-    if (loginResult === null) {
-        throw new Error('login failed');
-    }
+    const loginResult = await signInWithPopup(auth, provider);
 
     return { uid: loginResult.user.uid };
 }
