@@ -36,7 +36,7 @@ export default function Home() {
         </h1>
         <div className="h-6" />
         <h2 className='md:w-1/2 text-center font-thin text-lg text-gray-300'>
-          design, edit, and export cover art for your next project in minutes.
+          design, edit, and export cover art for your next project.
         </h2>
         <div className="h-6" />
         <div className='w-full md:w-1/2 flex flex-col md:flex-row justify-center'>
