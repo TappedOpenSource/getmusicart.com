@@ -49,12 +49,12 @@ export default function Nav() {
                 home
             </Link>
             <Link
-              href='https://tappedapp.notion.site/Technical-Roadmap-4edc036572bd4d89913f5cd5a4cde0f6?pvs=4'
+              href='https://tapped.ai/pricing'
               target="_blank"
               rel="noopener noreferrer"
               className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-500 hover:text-white'
             >
-                roadmap
+                pricing
             </Link>
             <Link
               href='https://blog.tapped.ai'
@@ -63,14 +63,6 @@ export default function Nav() {
               className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-500 hover:text-white'
             >
                 blog
-            </Link>
-            <Link
-              href='https://getmusicnewsletters.com'
-              target="_blank"
-              rel="noopener noreferrer"
-              className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-500 hover:text-white'
-            >
-                newsletter
             </Link>
             <Link
               href='mailto://support@tapped.ai'
