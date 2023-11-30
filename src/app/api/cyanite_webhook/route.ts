@@ -1,5 +1,5 @@
 
-export default async function POST(req: Request) {
+export async function POST(req: Request) {
     const { headers } = req;
     console.log({ headers });
     const body = await req.json();
