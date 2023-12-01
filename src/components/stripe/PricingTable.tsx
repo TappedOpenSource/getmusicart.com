@@ -12,6 +12,7 @@ interface StripePricingTableProps extends React.DetailedHTMLProps<React.HTMLAttr
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
       'stripe-pricing-table': StripePricingTableProps;

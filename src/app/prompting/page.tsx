@@ -114,7 +114,7 @@ export default function Prompting() {
 
       if (json.status === 'finished') {
         const { images } = json;
-        const imageUris = images.map((image: any) => image.uri);
+        const imageUris = images.map((image: { uri: string }) => image.uri);
         router.push(
           `/selection?image_uris=${imageUris.join(',')}`
         );
@@ -161,7 +161,7 @@ export default function Prompting() {
 
       // await pollMessageId(id);
       redirectWithInference({ id, modelId });
-    } catch (e: any) {
+    } catch (e) {
       console.log(e);
       toast.error('something went wrong, please try again');
     }

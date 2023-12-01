@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     }}>
       <img
         src={imageUri}
-        alt="generated image"
+        alt="generated"
       />
       {explicitContent && (
         <img

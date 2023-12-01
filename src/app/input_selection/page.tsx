@@ -5,7 +5,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import CreditsChip from '@/components/CreditsChip';
 import { useAuth } from '@/context/AuthProvider';
 import { useState } from 'react';
-import { decrementUserCredits } from '@/utils/database';
+// import { decrementUserCredits } from '@/utils/database';
 import { useCredits } from '@/context/CreditsProvider';
 import { enqueueSpotifyTrack } from '@/utils/cyanite';
 
@@ -33,7 +33,7 @@ export default function InputSelection() {
       toast('generating your image...', { position: 'top-center' });
       // await decrementUserCredits(authUser.uid);
       await enqueueSpotifyTrack('4wteGC0HtLeZWjDcczc4Pw');
-    } catch (e: any) {
+    } catch (e) {
       console.log(e);
       toast.error('something went wrong, please try again');
     }
