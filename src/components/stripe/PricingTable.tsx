@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { User } from 'firebase/auth';
 import React, { useEffect } from 'react';
@@ -24,14 +24,14 @@ export default function StripePricingTable({ user }: {
 }) {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = "https://js.stripe.com/v3/pricing-table.js";
+    script.src = 'https://js.stripe.com/v3/pricing-table.js';
     script.async = true;
 
     document.body.appendChild(script);
 
     return () => {
       document.body.removeChild(script);
-    }
+    };
   }, []);
 
   if (pricingTableId === undefined || publishableKey === undefined) {
@@ -46,12 +46,12 @@ export default function StripePricingTable({ user }: {
 
   return (
     <div className='flex flex-col w-full'>
-      <stripe-pricing-table 
+      <stripe-pricing-table
         pricing-table-id={pricingTableId}
         publishable-key={publishableKey}
         client-reference-id={user.uid}
         customer-email={user.email}
-        >
+      >
       </stripe-pricing-table>
     </div>
   );

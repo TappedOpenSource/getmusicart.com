@@ -1,16 +1,16 @@
 'use client';
 
-import CreditsChip from "@/components/CreditsChip";
-import ProcessingAnimation from "@/components/ProcessingAnimation";
-import { useAuth } from "@/context/AuthProvider";
-import { useCredits } from "@/context/CreditsProvider";
-import { decrementUserCredits } from "@/utils/database";
-import { sleep } from "@/utils/sleep";
-import { createUrl } from "@/utils/url";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import CreditsChip from '@/components/CreditsChip';
+import ProcessingAnimation from '@/components/ProcessingAnimation';
+import { useAuth } from '@/context/AuthProvider';
+import { useCredits } from '@/context/CreditsProvider';
+import { decrementUserCredits } from '@/utils/database';
+import { sleep } from '@/utils/sleep';
+import { createUrl } from '@/utils/url';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 
 const MAX_REPLIES = 100;
 const POLL_INVERVAL = 2 * 1000; // 2 seconds
@@ -21,12 +21,12 @@ export default function Prompting() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
 
-  const inferenceId = searchParams.get("inference_id") ?? null;
-  const modelId = searchParams.get("model_id") ?? null;
+  const inferenceId = searchParams.get('inference_id') ?? null;
+  const modelId = searchParams.get('model_id') ?? null;
 
   useEffect(() => {
     const startPolling = async () => {
@@ -49,9 +49,9 @@ export default function Prompting() {
     modelId: string;
   }) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.set("inference_id", id);
-    newParams.set("model_id", modelId);
-    router.push(createUrl("/prompting", newParams));
+    newParams.set('inference_id', id);
+    newParams.set('model_id', modelId);
+    router.push(createUrl('/prompting', newParams));
   };
 
   // const fetchMessageId = async (messageId: string) => {
@@ -101,10 +101,9 @@ export default function Prompting() {
     modelId: string;
   }) => {
     for (let i = 0; i < MAX_REPLIES; i++) {
-
-      const res = await fetch(`/api/poll_inference?inferenceId=${inferenceId}&modelId=${modelId}`)
+      const res = await fetch(`/api/poll_inference?inferenceId=${inferenceId}&modelId=${modelId}`);
       if (res.status === 500) {
-        toast.error("Something went wrong, please try again");
+        toast.error('Something went wrong, please try again');
         console.log({ text: await res.text() });
         return true;
       }
@@ -113,34 +112,34 @@ export default function Prompting() {
       const status = json.status;
       console.log({ status, retry: i });
 
-      if (json.status === "finished") {
+      if (json.status === 'finished') {
         const { images } = json;
         const imageUris = images.map((image: any) => image.uri);
         router.push(
-          `/selection?image_uris=${imageUris.join(",")}`
+          `/selection?image_uris=${imageUris.join(',')}`
         );
         return;
       }
       await sleep(POLL_INVERVAL);
     }
-  }
+  };
 
   async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (authUser === null) {
-      toast.error("please login first");
+      toast.error('please login first');
       return;
     }
 
-    if (prompt === "") {
-      toast.error("please enter a prompt");
+    if (prompt === '') {
+      toast.error('please enter a prompt');
       return;
     }
 
     try {
       setLoading(true);
-      toast("generating your image...", { position: "top-center" });
+      toast('generating your image...', { position: 'top-center' });
       // const response = await fetch(`/api/enqueue_dalle?prompt=${prompt}`);
       // console.log({ status: response.status });
       // const json = await response.json();
@@ -154,7 +153,7 @@ export default function Prompting() {
       console.log({ id, modelId });
 
       if (id === undefined) {
-        toast.error("something went wrong, please try again");
+        toast.error('something went wrong, please try again');
         return;
       }
 
@@ -164,7 +163,7 @@ export default function Prompting() {
       redirectWithInference({ id, modelId });
     } catch (e: any) {
       console.log(e);
-      toast.error("something went wrong, please try again");
+      toast.error('something went wrong, please try again');
     }
     setLoading(false);
   }
@@ -182,7 +181,7 @@ export default function Prompting() {
   if (processing) {
     return (
       <ProcessingAnimation />
-    )
+    );
   }
 
   return (
@@ -246,13 +245,13 @@ export default function Prompting() {
                     ></path>
                   </svg>
                 )}
-                {!loading ? "Generate" : ""}
+                {!loading ? 'Generate' : ''}
               </button>
             </div>
           </form>
-            <CreditsChip
-              className="hidden md:block text-center"
-            />
+          <CreditsChip
+            className="hidden md:block text-center"
+          />
         </div>
         <div className="md:block h-6" />
       </div>

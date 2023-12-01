@@ -1,11 +1,11 @@
 'use client';
 
 import React, {
-    ReactNode,
-    createContext,
-    useContext,
-    useEffect,
-    useState,
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 import { userCreditsListener } from '@/utils/database';
 import { useRouter } from 'next/navigation';
@@ -22,29 +22,29 @@ interface CreditsContextProviderProps {
 }
 
 export function CreditsContextProvider({
-    children,
+  children,
 }: CreditsContextProviderProps): JSX.Element {
-    const { authUser } =useAuth();
-    const router = useRouter();
-    const [credits, setCredits] = useState(0);
+  const { authUser } =useAuth();
+  const router = useRouter();
+  const [credits, setCredits] = useState(0);
 
-    useEffect(() => {
-        if (authUser === null) {
-            return;
-        }
+  useEffect(() => {
+    if (authUser === null) {
+      return;
+    }
 
-        const unsubscribe = userCreditsListener(authUser.uid, async (credits) => {
-            setCredits(credits);
-        });
+    const unsubscribe = userCreditsListener(authUser.uid, async (credits) => {
+      setCredits(credits);
+    });
 
-        return () => unsubscribe();
-    }, [router, authUser]);
+    return () => unsubscribe();
+  }, [router, authUser]);
 
-    return (
-        <>
-            <CreditsContext.Provider value={{ credits }}>
-                {children}
-            </CreditsContext.Provider>
-        </>
-    );
+  return (
+    <>
+      <CreditsContext.Provider value={{ credits }}>
+        {children}
+      </CreditsContext.Provider>
+    </>
+  );
 }

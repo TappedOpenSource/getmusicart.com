@@ -1,21 +1,21 @@
-import type { Metadata } from 'next'
-import { Rubik } from 'next/font/google'
-import './globals.css'
-import { AuthContextProvider } from '@/context/AuthProvider'
-import { Analytics } from '@vercel/analytics/react'
-import { CreditsContextProvider } from '@/context/CreditsProvider'
+import type { Metadata } from 'next';
+import { Rubik } from 'next/font/google';
+import './globals.css';
+import { AuthContextProvider } from '@/context/AuthProvider';
+import { Analytics } from '@vercel/analytics/react';
+import { CreditsContextProvider } from '@/context/CreditsProvider';
 
 const rubik = Rubik({
   subsets: ['latin'],
-  weight: ["300", "400", "500", "700", "800", "900"],
-})
+  weight: ['300', '400', '500', '700', '800', '900'],
+});
 
 const title = 'cover art generator';
 const description = 'Generate cover art for your music';
 export const metadata: Metadata = {
   title,
   description,
-}
+};
 
 export default function RootLayout({
   children,
@@ -65,5 +65,5 @@ export default function RootLayout({
       </body>
       <Analytics />
     </html>
-  )
+  );
 }
