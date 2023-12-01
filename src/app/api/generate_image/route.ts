@@ -1,3 +1,4 @@
+import { decrementUserCredits } from "@/utils/database";
 import { generateImage } from "@/utils/leap";
 
 export async function GET(req: Request) {

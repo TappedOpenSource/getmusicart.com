@@ -70,7 +70,7 @@ export default function InputSelection() {
                         <input
                             className="shadow-sm text-gray-700 rounded-xl px-4 py-3 mb-4 sm:mb-0 sm:min-w-[600px]"
                             type="text"
-                            placeholder="type here..."
+                            placeholder="https://open.spotify.com/track/...."
                             onChange={(e) => setSpotifyLink(e.target.value)}
                         />
                         <div className="md:w-4" />
