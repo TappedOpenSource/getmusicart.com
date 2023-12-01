@@ -49,7 +49,7 @@ export default function Nav() {
                 home
             </Link>
             <Link
-              href='https://tapped.ai/pricing'
+              href='https://getmusicart.com/pricing'
               target="_blank"
               rel="noopener noreferrer"
               className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-500 hover:text-white'
@@ -57,12 +57,12 @@ export default function Nav() {
                 pricing
             </Link>
             <Link
-              href='https://blog.tapped.ai'
+              href='https://linktree.tapped.ai'
               target="_blank"
               rel="noopener noreferrer"
               className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-500 hover:text-white'
             >
-                blog
+                socials
             </Link>
             <Link
               href='mailto://support@tapped.ai'
